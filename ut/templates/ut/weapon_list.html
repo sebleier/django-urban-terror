@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block body_class %}weapon{% endblock %}
+
+
+{% block content_title %}
+<h3>Weapons</h3>
+{% endblock %}
+
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>total kills</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for object in object_list %}
+        <tr class="{% cycle "even" "odd" %}">
+            <td><a href="{{object.get_absolute_url}}">{{object.ut_name}}</td>
+            <td>{{object.kill_set.count}}</a></td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

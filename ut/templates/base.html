@@ -1,0 +1,21 @@
+<html>
+    <head>
+    <title>{% block head_title %}Where Pones come to die - the Coral of Death{% endblock %}</title>
+    <style>
+        * { font-size: 11px; }
+        h1 { font-size: 16px; }
+        h2 { font-size: 14px; }
+        td { backgound-color: #ffffff;}
+        .even { background-color: #eeffee; }
+        .odd { background-color: #ffffff; }
+    </style>
+    </head>
+    <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+        <div class="content_title">
+            {% block content_title %}{% endblock %}
+        </div>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>

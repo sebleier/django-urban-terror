@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{% block body_class %}weapon{% endblock %}
+
+
+{% block content_title %}
+<h3>{{object.ut_name}}</h3>
+{% endblock %}
+
+
+{% block content %}
+<dl>
+    <dt>id</dt>
+    <dd>{{object.id}}</dd>
+
+    <dt>username</dt>
+    <dd>{{object.name}}</dd>
+
+    <dt>ut_name</dt>
+    <dd>{{object.ut_name}}</dd>
+
+    <dt>total kills</dt>
+    <dd>{{object.kill_set.count}}</dd>
+</dl>
+
+
+<h3>Kills by Player</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>username</th>
+            <th>total kills</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for player in object.get_kills_by_player %}
+        <tr class="{% cycle "even" "odd" %}">
+            <td><a href="{{player.killer.get_absolute_url}}">{{player.killer.username}}</td>
+            <td>{{player.count}}</a></td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,65 @@
+<html>
+    <head>        
+        <style type="text/css">
+            body{ margin: 0px; padding: 0px; }
+            #menu
+            {
+                position: absolute;    
+                left: 0px;
+                top: 0px;
+                height: 80px;
+                background-color: transparent;            
+            }
+            #overlay
+            {
+                position: absolute;
+                left: 0px;
+                top: 90px;        
+                z-index: 100;            
+                background: transparent;    
+                border: #555555 solid 1px;                    
+            }            
+            #evalInfo
+            {
+                border: #aaaaaa solid 1px;
+                background-color: #eeeeee;
+                display: none;
+                position: absolute;
+                font: normal 11px arial;
+            }
+            span { border: #cccccc solid 1px; padding: 8px 6px 2px 2px; font-size: 10px;}
+            form { margin: 0px; padding: 0px; display: inline; }
+        </style>        
+        <script type="text/javascript" src="http://media.seanbleier.com/js/jquery.js"></script>
+    </head>
+    <body onload="initialize('./json/');">
+        <div id="menu">
+            <fieldset>
+                <legend>Tools</legend>
+                <form id="toolOptions" name="toolOptions">                                    
+                    <input type="checkbox" name="evaluate" id="evaluate"  />
+                    <label>Evaluate</label>            
+                    <input type="checkbox" name="zoom" id="zoom"  />
+                    <label>Zoom</label>                    
+                    <span>
+                        <input type="radio" name="zoomType" id="zoomClick" value="Click" checked />
+                        <label>Zoom</label>
+                        <input type="radio" name="zoomType" id="zoomSelection" value="Selection" />
+                        <label>Zoom Selection</label>        
+                    </span>&nbsp;
+                    <span>                
+                        <input type="radio" name="zoomDir" id="zoomDirIn" value="In" checked />
+                        <label>Zoom In</label>
+                        <input type="radio" name="zoomDir" id="zoomDirOut" value="Out"  />
+                        <label>Zoom Out</label>
+                    </span>
+                </form>
+            </fieldset>
+        </div>
+        <div id="overlay"></div>
+        <div id="evalInfo"></div>
+        <script type="text/javascript" src="http://media.seanbleier.com/js/display_manager.js" /></script>
+        <script type="text/javascript" src="http://media.seanbleier.com/js/event_manager.js" /></script>
+        <script type="text/javascript" src="http://media.seanbleier.com/js/canvas.js" /></script>        
+    </body>
+</html>

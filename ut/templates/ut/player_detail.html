@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+
+{% block body_class %}player{% endblock %}
+
+
+{% block content_title %}
+<h3>{{ object.username }}</h3>
+{% endblock %}
+
+
+{% block content %}
+<dl>
+    <dt>id</dt>
+    <dd>{{object.id}}</dd>
+
+    <dt>username</dt>
+    <dd>{{object.username}}</dd>
+
+    <dt>total kills</dt>
+    <dd>{{object.kills.count}}</dd>
+
+    <dt>has killed</dt>
+    <dd>{{object.victims.count}}</dd>
+
+    <dt>has been killed</dt>
+    <dd>{{object.killers.count}}</dd>
+
+    <dt>games played</dt>
+    <dd>{{object.get_games_played}}</dd>
+
+    <dt>kill ratio</dt>
+    <dd>{{object.get_kill_ratio}}</dd>
+</dl>
+
+<h3><a href="./kd/">Graph of Kill to Death Ration</a></h3>
+
+<h3>Kills by Victim (including yourself)</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>victim username</th>
+            <th>total deaths</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for victim in object.get_victims %}
+        <tr class="{% cycle "even" "odd" %}">
+            <td><a href="{{victim.victim.get_absolute_url}}">{{victim.victim.username}}</td>
+            <td>{{victim.count}}</a></td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+
+<h3>Kills by Weapon</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>weapon</th>
+            <th>total kills</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for weapon in object.get_kills_by_weapon %}
+        <tr class="{% cycle "even" "odd" %}">
+            <td><a href="{{weapon.weapon.get_absolute_url}}">{{weapon.weapon.ut_name}}</td>
+            <td>{{weapon.count}}</a></td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block body_class %}game{% endblock %}
+
+
+{% block content_title %}
+<h3>{{object}}</h3>
+{% endblock %}
+
+
+{% block content %}
+<dl>
+    <dt>id</dt>
+    <dd>{{object.id}}</dd>
+    <dt>hash</dt>
+    <dd>{{object.hash}}</dd>
+    <dt>details</dt>
+    <dd>{{object.details}}</dd>
+</dl>
+{% endblock %}
