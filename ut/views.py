@@ -18,6 +18,9 @@ def stats(request):
 def player_kill_to_death_ratio(request, username):
     return render_to_response("ut/graph.html", {"username": username })
 
+def player_kill_to_death_ratio_ave(request, username):
+    return render_to_response("ut/graph.html", {"username": username })
+
 def player_kill_to_death_ratio_json(request, username):
     games = Game.objects.get_games_with_player(username)
     points = []
@@ -26,6 +29,29 @@ def player_kill_to_death_ratio_json(request, username):
         kills = game.kills.filter(killer__username=username).count()
         deaths = game.kills.filter(victim__username=username).count()
         points.append(float(kills + 1) / float(deaths + 1))
+    yLim = [min(points), max(points)]
+    data = {
+        "values": points,
+        "xLim": xLim,
+        "yLim": yLim,
+        "inc": [1, .01],
+    }
+    return HttpResponse(json.dumps(data), mimetype="text/plain")
+
+def player_kill_to_death_ratio_ave_json(request, username):
+    games = Game.objects.get_games_with_player(username)
+    points = []
+    xLim = [0, len(games)]   
+    i = 0.0 
+    running_ave = 0.0
+    for game in games:
+        kills = game.kills.filter(killer__username=username).count()
+        deaths = game.kills.filter(victim__username=username).count()
+        ratio = float(kills + 1) / float(deaths + 1)
+        running_ave = ((running_ave * i) + ratio) / (i + 1)
+        i += 1
+        points.append(running_ave)
+        
     yLim = [min(points), max(points)]
     data = {
         "values": points,

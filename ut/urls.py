@@ -17,11 +17,19 @@ urlpatterns = patterns('',
     url(r'players/(?P<username>[-\w]+)/kd/$',
         view=player_kill_to_death_ratio,
         name='player_kill_to_death_ratio'),
+        
+    url(r'players/(?P<username>[-\w]+)/kdave/$',
+        view=player_kill_to_death_ratio_ave,
+        name='player_kill_to_death_ratio_ave'),
 
     url(r'players/(?P<username>[-\w]+)/kd/json/$',
         view=player_kill_to_death_ratio_json,
         name='player_kill_to_death_ratio_json'),
-
+    
+    url(r'players/(?P<username>[-\w]+)/kdave/json/$',
+        view=player_kill_to_death_ratio_ave_json,
+        name='player_kill_to_death_ratio_ave_json'),
+    
     url(r'players/$',
         view=player_list,
         name='player_list'),
