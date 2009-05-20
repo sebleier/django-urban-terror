@@ -5,10 +5,16 @@
         * { font-size: 11px; }
         h1 { font-size: 16px; }
         h2 { font-size: 14px; }
-        td { backgound-color: #ffffff;}
+        /*td { backgound-color: #ffffff;}
         .even { background-color: #eeffee; }
-        .odd { background-color: #ffffff; }
+        .odd { background-color: #ffffff; }*/
     </style>
+    <script type="text/javascript" src="http://media.seanbleier.com/js/tablesorter/jquery-latest.js"></script> 
+    <script type="text/javascript" src="http://media.seanbleier.com/js/tablesorter/jquery.tablesorter.js"></script> 
+    <script type="text/javascript">
+        $(document).ready(function() { $("table").tablesorter()})
+    </script>
+    <link type="text/css" href="http://media.seanbleier.com/js/tablesorter/themes/blue/style.css" rel="stylesheet" />
     </head>
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
         <div class="content_title">

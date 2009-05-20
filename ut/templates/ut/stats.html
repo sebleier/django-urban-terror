@@ -3,19 +3,21 @@
 <h1>Where Ponies come to die - the Coral of Death</h1>
 <h2>Global Stats</h2>
 {% endblock %}>
-{% block content %}
+{% block content %} 
     {% load ut %}
     {% get_players as killers victims %}
-    <table cellpadding="2" cellspacing="1" id="global-stats">
-    <tr><td>&nbsp;</td><td align="center" colspan="{{ killers.count }}"><strong>Killers</strong></td><td colspan="2">&nbsp;</td></tr>
+    <table cellpadding="2" cellspacing="1" id="global-stats" class="tablesorter">
+    <thead>
     <tr>
-    <td><strong>Victims</strong></td>
+    <th class="header"><strong>Victims</strong></th>
     {% for killer in killers %}
-        <td>{{ killer.username }}</td>
+        <th>{{ killer.username }}</th>
     {% endfor %}
-    <td><strong>Total Deaths</strong></td>
-    <td><strong>Kill / Death Ratio</strong></td>
+    <th><strong>Total Deaths</strongh></th>
+    <th><strong>Kill / Death Ratio</strong></th>
     </tr>
+    </thead>
+    <tbody>
     {% for victim in victims %}
         <tr class="{% cycle "even" "odd" %}">
         <td><a href="ut/players/{{ victim.username }}/">{{ victim.username }}</a></td>
@@ -26,6 +28,8 @@
         <td><strong>{% get_kill_ratio victim %}</td>
         </tr>
     {% endfor %}
+    </tbody>
+    <tfoot>
     <tr>
     <td><strong>Total Kills<strong></td>
     {% for killer in killers %}
@@ -33,20 +37,23 @@
     {% endfor %}
     <td>&nbsp;</td>
     <td colspan="2">&nbsp;</td>
+    </tfoot>
     </table>
     <hr />
     {% for game in games %}
         {% get_players game as killers victims %}
-        <table cellpadding="2" cellspacing="1" id="global-stats">
-        <tr><td>&nbsp;</td><td align="center" colspan="{{ killers.count }}"><strong>Killers</strong></td><td colspan="2">&nbsp;</td></tr>
+        <table cellpadding="2" cellspacing="1" class="tablesorter">
+        <thead>
         <tr>
-        <td><strong>Victims</strong></td>
+        <th class="header"><strong>Victims</strong></th>
         {% for killer in killers %}
-            <td>{{ killer.username }}</td>
+            <th class="header">{{ killer.username }}</th>
         {% endfor %}
-        <td><strong>Total Deaths</strong></td>
-        <td><strong>Kill / Death Ratio</strong></td>
+        <th class="header"><strong>Total Deaths</strong></th>
+        <th class="header"><strong>Kill / Death Ratio</strong></th>
         </tr>
+        </thead>
+        <tbody>
         {% for victim in victims %}
             <tr class="{% cycle "even" "odd" %}">
             <td>{{ victim.username }}</td>
@@ -57,6 +64,8 @@
             <td><strong>{% get_kill_ratio victim game %}</td>
             </tr>
         {% endfor %}
+        </tbody>
+        <tfoot>
         <tr>
         <td><strong>Total Kills<strong></td>
         {% for killer in killers %}
@@ -64,6 +73,7 @@
         {% endfor %}
         <td>&nbsp;</td>
         <td colspan="2">&nbsp;</td>
+        </tfoot>
         </table>
     {% endfor %}
 {% endblock %}
