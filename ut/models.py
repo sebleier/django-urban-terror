@@ -9,15 +9,20 @@ class GameManager(models.Manager):
 class Game(models.Model):
     details = models.TextField()
     hash = models.TextField()
+
     objects = GameManager()
+
+    _players = None
 
     @property
     def players(self):
-        kills = Kill.objects.filter(game=self)
-        for kill in kills:
-            players.append(kill.killer)
-            players.append(kill.victim)
-        return list(set(players))
+        if self._players is None:
+            kills = Kill.objects.filter(game=self)
+            for kill in kills:
+                players.append(kill.killer)
+                players.append(kill.victim)
+            self._players = list(set(players))
+        return self._players
 
     def __unicode__(self):
         return self.hash
@@ -32,6 +37,8 @@ class Weapon(models.Model):
     name = models.CharField(max_length=255, null=True)
     ut_name = models.CharField(max_length=255)
 
+    _kill_counts = None
+
     def __unicode__(self):
         return self.ut_name
 
@@ -42,23 +49,25 @@ class Weapon(models.Model):
         })
 
     def get_kills_by_player(self):
-        kill_counts = []
-        players = Player.objects.all().order_by('username')
-        for player in players:
-            kills = Kill.objects.filter(weapon=self, killer=player).count()
-            if kills:
-                kill_counts.append(
-                    {
+        if self._kill_counts is None:
+            kill_counts = []
+            players = Player.objects.all().order_by('username')
+            for player in players:
+                kills = Kill.objects.filter(weapon=self, killer=player).count()
+                if kills:
+                    kill_counts.append({
                         'killer': player,
                         'username': player.username,
                         'count': kills,
-                    }
-                )
-        return kill_counts
+                    })
+        return self.kill_counts
 
 class Player(models.Model):
     username = models.CharField(max_length=255)
     kills = models.ManyToManyField("self", through="Kill", symmetrical=False)
+
+    _victims = None
+    _weapon_counts = None
 
     def __unicode__(self):
         return self.username
@@ -72,36 +81,36 @@ class Player(models.Model):
     def get_games_played(self):
         return -1
 
-    def get_kill_ratio(self):        
-        return float(Kill.objects.filter(killer=self).count() + 1) / float(Kill.objects.filter(victim=self).count() + 1)        
+    def get_kill_ratio(self):
+        return float(Kill.objects.filter(killer=self).count() + 1) / float(Kill.objects.filter(victim=self).count() + 1)
 
     def get_victims(self):
-        victim_count = []
-        players = Player.objects.all().order_by('username')
-        for player in players:
-            kills = Kill.objects.filter(killer=self, victim=player).count()
-            if kills:
-                victim_count.append(
-                    {
-                        'victim': player,
-                        'count': kills,
-                    }
-                )
-        return victim_count
+        if self._victims_count is None:
+            victim_count = []
+            players = Player.objects.all().order_by('username')
+            for player in players:
+                kills = Kill.objects.filter(killer=self, victim=player).count()
+                if kills:
+                    victim_count.append(
+                        {
+                            'victim': player,
+                            'count': kills,
+                        }
+                    )
+        return self._victim_count
 
     def get_kills_by_weapon(self):
-        weapon_counts = []
-        weapons = Weapon.objects.all()
-        for weapon in weapons:
-            kills = Kill.objects.filter(killer=self, weapon=weapon).count()
-            if kills:
-                weapon_counts.append(
-                    {
+        if self._weapon_counts is None:
+            weapon_counts = []
+            weapons = Weapon.objects.all()
+            for weapon in weapons:
+                kills = Kill.objects.filter(killer=self, weapon=weapon).count()
+                if kills:
+                    weapon_counts.append({
                         'weapon': weapon,
                         'count': kills,
-                    }
-                )
-        return weapon_counts
+                    })
+        return self._weapon_counts
 
 class Kill(models.Model):
     killer = models.ForeignKey(Player, related_name="victims")
